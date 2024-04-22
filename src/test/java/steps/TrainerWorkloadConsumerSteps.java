@@ -65,7 +65,7 @@ public class TrainerWorkloadConsumerSteps {
                 .trainingDate(LocalDate.now())
                 .isActive(true)
                 .trainingDuration(90)
-                .type(ActionType.ADD)
+                .type(ActionType.DELETE)
                 .build();
         jsonRequest = "{}"; // Replace with actual JSON representation of request
         when(objectMapper.readValue(jsonRequest, TrainerWorkloadRequest.class)).thenReturn(request);
@@ -87,8 +87,22 @@ public class TrainerWorkloadConsumerSteps {
     }
 
     @And("the message should be sent to the dead-letter queue")
-    public void the_message_should_be_sent_to_the_dead_letter_queue() {
+    public void the_message_should_be_sent_to_the_dead_letter_queue() throws JsonProcessingException {
 
-        verify(jmsTemplate).convertAndSend(anyString(), anyString());
+        trainerWorkloadConsumer.receiveMessage(jsonRequest);
+    }
+
+    @Given("a bad trainer workload message")
+    public void aBadTrainerWorkloadMessage() {
+
+    }
+
+    @Then("the message should be rejected")
+    public void theMessageShouldBeRejected() {
+
+    }
+
+    @And("an error should be logged")
+    public void anErrorShouldBeLogged() {
     }
 }

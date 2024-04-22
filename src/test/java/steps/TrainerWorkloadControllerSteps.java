@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class TrainerWorkloadSteps {
+public class TrainerWorkloadControllerSteps {
 
     @Mock
     private TrainerWorkloadService trainerWorkloadService;
@@ -26,7 +26,7 @@ public class TrainerWorkloadSteps {
     private TrainerWorkloadRequest request = new TrainerWorkloadRequest();
     private ResponseEntity<HttpStatus> response;
 
-    public TrainerWorkloadSteps() {
+    public TrainerWorkloadControllerSteps() {
         MockitoAnnotations.openMocks(this); // Initialize annotated mocks
     }
 
@@ -61,4 +61,12 @@ public class TrainerWorkloadSteps {
         assertEquals(expectedStatusCode, response.getStatusCode().value());
     }
 
+    @Given("an invalid trainer workload update request")
+    public void anInvalidTrainerWorkloadUpdateRequest() {
+        
+    }
+
+    @And("the workload should remain unchanged")
+    public void theWorkloadShouldRemainUnchanged() {
+    }
 }

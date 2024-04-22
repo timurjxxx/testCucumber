@@ -57,8 +57,18 @@ public class TrainerWorkloadConsumerSteps {
     }
 
     @Given("an invalid trainer workload message")
-    public void an_invalid_trainer_workload_message() {
-        jsonRequest = "{}";
+    public void an_invalid_trainer_workload_message() throws JsonProcessingException {
+        request = TrainerWorkloadRequest.builder()
+                .trainerFirstname("test")
+                .trainerLastname("test")
+                .trainerUsername("testUsername")
+                .trainingDate(LocalDate.now())
+                .isActive(true)
+                .trainingDuration(90)
+                .type(ActionType.ADD)
+                .build();
+        jsonRequest = "{}"; // Replace with actual JSON representation of request
+        when(objectMapper.readValue(jsonRequest, TrainerWorkloadRequest.class)).thenReturn(request);
     }
 
     @When("the message is received by the consumer")
@@ -78,6 +88,7 @@ public class TrainerWorkloadConsumerSteps {
 
     @And("the message should be sent to the dead-letter queue")
     public void the_message_should_be_sent_to_the_dead_letter_queue() {
+
         verify(jmsTemplate).convertAndSend(anyString(), anyString());
     }
 }

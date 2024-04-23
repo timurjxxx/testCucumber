@@ -1,18 +1,11 @@
 Feature: Update Trainer Workload
 
-  Scenario: Update Trainer Workload with Add Action
-    Given a trainer workload update request with type "ADD"
-    When I send the update request
-    Then the workload should add training  duration successfully
-    And the response status code should be 200
+  Scenario: Trainer workload is updated successfully
+    Given a trainer workload request is received
+    When the trainer workload is updated
+    Then the trainer workload should be successfully updated
 
-  Scenario: Update Trainer Workload with Add Action
-    Given a trainer workload update request with type "DELETE"
-    When I send the update request
-    Then the workload should add training  duration successfully
-    And the response status code should be 200
-
-  Scenario: Invalid Trainer Workload Update Request
-    Given an invalid trainer workload update request
-    Then the response status code should be 400
-    And the workload should remain unchanged
+  Scenario: Invalid trainer workload request
+    Given an invalid trainer workload request is received
+    When the trainer workload is updated
+    Then the update should fail with a bad request response

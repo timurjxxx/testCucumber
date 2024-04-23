@@ -8,5 +8,5 @@ Feature: Trainer Workload Consumer
 
   Scenario: Receive invalid message
     Given an invalid JSON request
-    When the message is received
+    When the invalid message is received
     Then the message should be sent to the dead-letter queue

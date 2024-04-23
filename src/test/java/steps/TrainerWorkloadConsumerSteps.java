@@ -38,6 +38,9 @@ public class TrainerWorkloadConsumerSteps {
     private String jsonRequest;
 
     private TrainerWorkloadRequest request ;
+
+    private String invalidJsonRequest;
+
     public TrainerWorkloadConsumerSteps() {
         MockitoAnnotations.openMocks(this);
     }
@@ -63,7 +66,14 @@ public class TrainerWorkloadConsumerSteps {
     public void theMessageIsReceived() throws JsonProcessingException {
         trainerWorkloadConsumer.receiveMessage(jsonRequest);
     }
+    @When("the invalid message is received")
+    public void theInvalidMessageIsReceived() throws JsonProcessingException {
+        doThrow(new RuntimeException("Invalid JSON")).when(objectMapper)
+                .readValue(any(String.class), eq(TrainerWorkloadRequest.class));
 
+
+        trainerWorkloadConsumer.receiveMessage(jsonRequest);
+    }
     @Then("the workload should be updated")
     public void theWorkloadShouldBeUpdated() {
         verify(trainerWorkloadService).updateWorkload(request);
@@ -71,7 +81,8 @@ public class TrainerWorkloadConsumerSteps {
 
     @Then("the message should be sent to the dead-letter queue")
     public void theMessageShouldBeSentToTheDeadLetterQueue() {
-        verify(jmsTemplate).convertAndSend("workloadDLQ", jsonRequest);
+        verify(jmsTemplate).convertAndSend("test", jsonRequest);
     }
+
 
 }

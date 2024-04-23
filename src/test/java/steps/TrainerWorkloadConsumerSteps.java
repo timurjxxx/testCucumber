@@ -35,7 +35,7 @@ public class TrainerWorkloadConsumerSteps {
     private TrainerWorkloadConsumer trainerWorkloadConsumer;
 
     private String jsonRequest;
-    private TrainerWorkloadRequest request;
+    private TrainerWorkloadRequest request = new TrainerWorkloadRequest();
 
     public TrainerWorkloadConsumerSteps() {
         MockitoAnnotations.openMocks(this); // Initialize annotated mocks

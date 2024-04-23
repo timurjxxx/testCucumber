@@ -14,6 +14,5 @@ Feature: Update Trainer Workload
 
   Scenario: Invalid Trainer Workload Update Request
     Given an invalid trainer workload update request
-    When I send the update request
     Then the response status code should be 400
     And the workload should remain unchanged

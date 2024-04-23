@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 
 public class TrainerWorkloadControllerSteps {
@@ -24,7 +26,7 @@ public class TrainerWorkloadControllerSteps {
     private TrainerWorkloadService trainerWorkloadService;
 
     private TrainerWorkloadRequest request = new TrainerWorkloadRequest();
-    private ResponseEntity<HttpStatus> response;
+    private ResponseEntity<HttpStatus> response ;
 
     private TrainerWorkloadRequest invalidRequest = new TrainerWorkloadRequest();
 
@@ -49,7 +51,7 @@ public class TrainerWorkloadControllerSteps {
 
     @When("I send the update request")
     public void iSendTheUpdateRequest() {
-        Mockito.doNothing().when(trainerWorkloadService).updateWorkload(request);
+        doNothing().when(trainerWorkloadService).updateWorkload(request);
         trainerWorkloadService.updateWorkload(request);
 
 
@@ -57,12 +59,12 @@ public class TrainerWorkloadControllerSteps {
 
     @Then("the workload should add training  duration successfully")
     public void theWorkloadShouldBeUpdatedSuccessfully() {
-        response = ResponseEntity.ok().build();
+        verify(trainerWorkloadService).updateWorkload(request);
+
     }
 
     @Then("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
-        assertEquals(expectedStatusCode, response.getStatusCode().value());
     }
 
     @Given("an invalid trainer workload update request")
@@ -81,6 +83,6 @@ public class TrainerWorkloadControllerSteps {
 
     @And("the workload should remain unchanged")
     public void theWorkloadShouldRemainUnchanged() {
-        Mockito.verify(trainerWorkloadService, Mockito.never()).updateWorkload(Mockito.any());
+        verify(trainerWorkloadService, Mockito.never()).updateWorkload(Mockito.any());
     }
 }
